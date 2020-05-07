@@ -6,17 +6,10 @@ using namespace std;
 
 
 
-typedef struct eq_side{
-
-
-
-
-
-}eq_side;
-
 
 namespace solver
 {
+
     
     
     class RealVariable
@@ -24,31 +17,35 @@ namespace solver
         double _co;
         double _free;
         double _exp_co;
-        
-        
-
-
+        double rounder(double d)
+        {
+            double scale = 0.000001; // i.e. round to nearest one-hundreth
+            int s = (int)d*10000;
+            d = double(s/10000);
+            return d;
+        }
 
         public:
             
-            RealVariable(){
-                this->_co=1;
-                this->_free=0;
-                this->_exp_co=0;
-            }
-            RealVariable(const double& co = 1, const double& free = 0,
-             const double& exp_co = 0) : _co(co), _free(free), _exp_co(exp_co){ };
+            
+            RealVariable(const double& co = 1.0, const double& free = 0.0,
+             const double& exp_co = 0.0) : _co(co), _free(free), _exp_co(exp_co){
+                 this->_free = rounder(free);
+                 this->_exp_co = rounder(exp_co);
+                 this->_co = rounder(co);
+                 cout << "constructor co: " <<_co << " exp_co: " << _exp_co << " at_free: " << _free << endl;
+              };
 
-            double _co() const{
-                return this->_co;
+            double co() const{
+                return round(_co);
             }
-            double _free() const
+            double at_free() const
             {
-                return this->_free;
+                return round(_free);
             }
-            double _exp_co() const
+            double exp_co() const
             {
-                return this->_co;
+                return round(_exp_co);
             }
             friend const RealVariable &operator*(double r, const RealVariable &x);
             friend const RealVariable &operator==(const RealVariable &x, double r);
@@ -71,14 +68,15 @@ namespace solver
 
         public:
         
-            ComplexVariable(){
-                this->_im=0.0;
-                this->_re=0.0;
+            ComplexVariable(const double& re = 1.0, const double& im = 0.0):
+            _re(re),_im(im){
+                this->_im=im;
+                this->_re=re;
             }
-            double _re(){
+            double re(){
                 return _re;
             }
-            double _im()
+            double im()
             {
                 return _im;
             }

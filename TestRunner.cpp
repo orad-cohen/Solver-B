@@ -3,7 +3,7 @@
 using namespace doctest;
 
 const int MIN_TESTS = 100;
-
+/*
 
 struct ReporterGrader: public ConsoleReporter {
     ReporterGrader(const ContextOptions& input_options)
@@ -17,10 +17,11 @@ struct ReporterGrader: public ConsoleReporter {
     }
 };
 
-REGISTER_REPORTER("grader", /*priority=*/1, ReporterGrader);
+REGISTER_REPORTER("grader", /*priority=1, ReporterGrader);
 
 int main(int argc, char** argv) {
     Context context;
     context.addFilter("reporters", "grader");
     context.run();
 }
+*/

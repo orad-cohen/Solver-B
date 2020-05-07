@@ -1,7 +1,7 @@
 #define DOCTEST_CONFIG_IMPLEMENT
 #include "doctest.h"
 using namespace doctest;
-
+/*
 const int MIN_TESTS = 100;
 
 struct ReporterCounter: public ConsoleReporter {
@@ -15,7 +15,7 @@ struct ReporterCounter: public ConsoleReporter {
             std::cout << "Please write at least " << MIN_TESTS << " tests! " <<  std::endl << 0  << std::endl;
         }
     }
-};
+};*/
 
 REGISTER_REPORTER("counter", 1, ReporterCounter);
 
