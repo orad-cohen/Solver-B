@@ -37,19 +37,25 @@ namespace solver
     };
     class ComplexVariable
     {
-        double _re,_im;
-        public: 
-            ComplexVariable(const double& re = 1.0, const double& im = 0.0):
-            _re(re),_im(im){
-                this->_im=im;
-                this->_re=re;
+         double _a,_b,_c,_i;
+        public:   
+            ComplexVariable(const double& a = 0.0, const double& b = 1.0,const double& c = 0.0, const double& i=0.0) :
+             _a(a), _b(b), _c(c), _i(i){}
+
+            double a() const{
+                return _a;
             }
-            double re(){
-                return _re;
-            }
-            double im()
+            double b() const
             {
-                return _im;
+                return _b;
+            }
+            double c() const
+            {
+                return _c;
+            }
+            double i() const
+            {
+                return _i;
             }
             friend const ComplexVariable &operator*(double r, const ComplexVariable &x);
             friend const ComplexVariable &operator^(const ComplexVariable &r1, double r2);
@@ -62,7 +68,8 @@ namespace solver
             friend const ComplexVariable &operator+(const ComplexVariable &r1, double r2);
             friend const ComplexVariable &operator+(double r2, const ComplexVariable &r1);
             friend const ComplexVariable &operator+(const ComplexVariable &r1, complex<double> r2);
-            friend const ComplexVariable &operator"" i(double d);
+            friend const ComplexVariable &operator+(complex<double> r2, const ComplexVariable &r1);
+            friend const ComplexVariable &operator"" _i(long double d);
     };
     complex<double> solve(const ComplexVariable &cmplx);
     double solve(const RealVariable &r); 

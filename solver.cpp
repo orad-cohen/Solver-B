@@ -80,7 +80,7 @@ const solver::RealVariable& solver::operator+(const solver::RealVariable&  x1, c
     return tmpo;}
 
 const solver::RealVariable& solver::operator+(double d1, const solver::RealVariable& x2){
-     RealVariable *tmp = new RealVariable(x2.a(),x2.b(),x2.c()+d1);
+    RealVariable *tmp = new RealVariable(x2.a(),x2.b(),x2.c()+d1);
     RealVariable &tmpo = *tmp;  
     return tmpo;}
 const solver::RealVariable& solver::operator/(const solver::RealVariable& x1, double d1){
@@ -90,20 +90,63 @@ const solver::RealVariable& solver::operator/(const solver::RealVariable& x1, do
     else{
          RealVariable *tmp = new RealVariable(x1.a()/d1,x1.b()/d1,x1.c()/d1);
          RealVariable &tmpo = *tmp;  
-         return tmpo;};
-}   
+         return tmpo;}}   
 complex<double> solver::solve(const ComplexVariable &cmplx){
     return complex<double> (3);}
+const solver::ComplexVariable& solver::operator*(double r, const ComplexVariable &r1){ 
+     ComplexVariable *tmp = new ComplexVariable(r1.a()*r,r1.b()*r,r1.c()*r,r1.i()*r);
+     ComplexVariable &tmpo = *tmp;
+     return tmpo;}
+const solver::ComplexVariable& solver::operator^(const ComplexVariable &r1, double r2){
+    if(r2!=2) throw std::invalid_argument("Exponent cannot be anything besides 1 or 2");
+    else{
+        ComplexVariable *tmp = new ComplexVariable(1,0,r1.c(),r1.i());
+        ComplexVariable &tmpo = *tmp;  
+        return tmpo;}}
+const solver::ComplexVariable& solver::operator/(const ComplexVariable &r1, double r){
+    ComplexVariable *tmp = new ComplexVariable(r1.a()/r,r1.b()/r,r1.c()/r,r1.i()/r);
+    ComplexVariable &tmpo = *tmp;  
+    return tmpo;}
+const solver::ComplexVariable& solver::operator-(const ComplexVariable &r1, const ComplexVariable &r2){ 
+     ComplexVariable *tmp = new ComplexVariable(r1.a() - r2.a(), r1.b() - r2.b(), r1.c() - r2.c() , r1.i() - r2.i());
+     ComplexVariable &tmpo = *tmp;
+     return tmpo;}
+const solver::ComplexVariable& solver::operator-(const ComplexVariable &r1, double r2){ 
+     ComplexVariable *tmp = new ComplexVariable(r1.a(),r1.b(),r1.c()-r2,r1.i());
+     ComplexVariable &tmpo = *tmp;
+     return tmpo;}
+const solver::ComplexVariable& solver::operator==(const ComplexVariable &r1, double r2){ 
+     ComplexVariable *tmp = new ComplexVariable(r1.a(),r1.b(),r1.c()-r2,r1.i());
+     ComplexVariable &tmpo = *tmp; 
+     return tmpo;}
+const solver::ComplexVariable& solver::operator==(const ComplexVariable &r1, const ComplexVariable &r2){ 
+     ComplexVariable *tmp = new ComplexVariable(r1.a()-r2.a(),r1.b()-r2.b(),r1.c()-r2.c(),r1.i()-r2.i());
+     ComplexVariable &tmpo = *tmp; 
+     return tmpo;}
+const solver::ComplexVariable& solver::operator+(const ComplexVariable &r1, const ComplexVariable &r2){
+     ComplexVariable *tmp = new ComplexVariable(r1.a() + r2.a(), r1.b() + r2.b(), r1.c() + r2.c() , r1.i() + r2.i());
+     ComplexVariable &tmpo = *tmp;
+     return tmpo;}
+const solver::ComplexVariable& solver::operator+(const ComplexVariable &r1, double r2){ 
+     ComplexVariable *tmp = new ComplexVariable(r1.a(),r1.b(),r1.c()+r2, r1.i());
+     ComplexVariable &tmpo = *tmp;
+     return tmpo;}
+const solver::ComplexVariable& solver::operator+(double r2, const ComplexVariable &r1){
+     ComplexVariable *tmp = new ComplexVariable(r1.a(),r1.b(),r1.c()+r2, r1.i());
+     ComplexVariable &tmpo = *tmp;
+     return tmpo;}
 
-ComplexVariable C;
-const solver::ComplexVariable& solver::operator*(double r, const ComplexVariable &x){ return C;}
-const solver::ComplexVariable& solver::operator^(const ComplexVariable &r1, double r2){ return C;}
-const solver::ComplexVariable& solver::operator/(const ComplexVariable &r1, double r2){ return C;}
-const solver::ComplexVariable& solver::operator-(const ComplexVariable &r1, const ComplexVariable &r2){ return C;}
-const solver::ComplexVariable& solver::operator-(const ComplexVariable &r1, double r2){ return C;}
-const solver::ComplexVariable& solver::operator==(const ComplexVariable &r1, double r2){ return C;}
-const solver::ComplexVariable& solver::operator==(const ComplexVariable &r1, const ComplexVariable &r2){ return C;}
-const solver::ComplexVariable& solver::operator+(const ComplexVariable &r1, const ComplexVariable &r2){ return C;}
-const solver::ComplexVariable& solver::operator+(const ComplexVariable &r1, double r2){ return C;}
-const solver::ComplexVariable& solver::operator+(double r2, const ComplexVariable &r1){ return C;}
-const solver::ComplexVariable& solver::operator+(const ComplexVariable &r1, complex<double> r2){ return C;}
+const solver::ComplexVariable& solver::operator+(const ComplexVariable &r1, complex<double> r2)
+{
+     ComplexVariable *tmp = new ComplexVariable(r1.a(),r1.b(),r1.c()+r2.real(), r1.i() + r2.imag());
+     ComplexVariable &tmpo = *tmp;
+     return tmpo;}
+const solver::ComplexVariable& solver::operator+(complex<double> r2, const ComplexVariable &r1)
+{
+     ComplexVariable *tmp = new ComplexVariable(r1.a(),r1.b(),r1.c()+r2.real(), r1.i() + r2.imag());
+     ComplexVariable &tmpo = *tmp;
+     return tmpo;}
+
+const solver::ComplexVariable& solver::operator"" _i(long double d)
+{
+}
