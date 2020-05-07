@@ -7,92 +7,93 @@ using namespace std;
 using namespace solver;
 
 double solver::solve(const RealVariable &r){
-    
-    if(r.exp_co()!=0&&r.co()!=0){
-        double bsq = round(r.co() * r.co());
-        double asq = round(r.exp_co());
-        double fsq = round (r.at_free());
+    if(r.a()!=0&&r.b()!=0){
+        double bsq = round(r.b() * r.b());
+        double asq = round(r.a());
+        double fsq = round (r.c());
         double rside = sqrt(bsq - 4 * asq * fsq);
         double lside = -bsq;
         double div = 2*asq;
-        
         return (lside+rside)/div;
-
-        
-
     }
-    else if (r.co()!=0){
-        double rside = -r.at_free();
-        rside/=r.co();
+    else if (r.b()!=0){
+        double rside = -r.c();
+        rside/=r.b();
         return rside;
     }
 
-    else if(r.exp_co()!=0){
-        double rside = -r.at_free();
-        rside/=r.exp_co();
-        
-        return sqrt(rside);
+    else if(r.a()!=0){
+        double rside = -r.c();
+        rside/=r.a();
+        if(rside < 0) throw std::invalid_argument("There is no real solution");
+        else return sqrt(rside);
     }
     else{
         throw std::invalid_argument("");
     }
-
         return 1.0;
-
 }
-complex<double> solver::solve(const ComplexVariable &cmplx){
-
-    return complex<double> (3);
+const RealVariable &operator*(const RealVariable &x, double r)
+{
+    RealVariable *tmp = new RealVariable(x.a()*r,x.b()*r,x.c()*r);
+    RealVariable &tmpo = *tmp; 
+    return tmpo;
 }
 const solver::RealVariable& solver::operator*(double r, const RealVariable &x){
-
-    
-    double nco = r * (x.co());
-    double neco= x.exp_co() * r;
-    double nat_free= r * x.at_free();
-   
-    return RealVariable(nco,nat_free ,neco);
-    
+    RealVariable *tmp = new RealVariable(x.a()*r,x.b()*r,x.c()*r);
+    RealVariable &tmpo = *tmp; 
+    return tmpo;
 }
-
-const solver::RealVariable& solver::operator==(const solver::RealVariable& x5, double r){
-
-    
-    return RealVariable(x5.co(),x5.at_free()-r,x5.exp_co());}
+const solver::RealVariable& solver::operator==(const solver::RealVariable& x5, double r){ 
+    RealVariable *tmp = new RealVariable(x5.a(),x5.b(),x5.c()-r);
+    RealVariable &tmpo = *tmp; 
+    return tmpo;}
 const solver::RealVariable &solver::operator==(const solver::RealVariable &x, const solver::RealVariable &x2){
-    return x-x2;}
-
+    RealVariable *tmp = new RealVariable(x.a()-x2.a(),x.b()-x2.b(),x.c()-x2.c());
+    RealVariable &tmpo = *tmp; 
+    return tmpo;}
 const solver::RealVariable& solver::operator^(const solver::RealVariable& x, double r){
-    if(r!=2){
-        throw std::invalid_argument("Exponent cannot be anything besides 1 or 2");
+    if(r!=2) throw std::invalid_argument("Exponent cannot be anything besides 1 or 2");
+    else{
+        RealVariable *tmp = new RealVariable(1,0,x.c());
+        RealVariable &tmpo = *tmp;  
+        return tmpo;   
     }
-    else{ return RealVariable(0,x.at_free(),1);}
 }
-
 const solver::RealVariable& solver::operator-(const solver::RealVariable& x, double d){
-
-    double newd= x.at_free()-d;
-    return RealVariable(x.co(), newd, x.exp_co());
-
+    RealVariable *tmp = new RealVariable(x.a(), x.b(), x.c() - d);
+    RealVariable &tmpo = *tmp;  
+    return tmpo; 
 }
 const solver::RealVariable &solver::operator-(const solver::RealVariable &x1, const solver::RealVariable &x2){
-   
-    return RealVariable(x1.co() - x2.co(), x1.at_free() - x2.at_free(), x1.exp_co() - x2.exp_co());
+    RealVariable *tmp = new RealVariable(x1.a() - x2.a(), x1.b() - x2.b(), x1.c() - x2.c());
+    RealVariable &tmpo = *tmp;  
+    return tmpo; 
 }
-const solver::RealVariable& solver::operator+(const solver::RealVariable& x, double d){return RealVariable(x.co(), x.at_free() + d, x.exp_co());}
-const solver::RealVariable& solver::operator+(const solver::RealVariable&  x1, const solver::RealVariable& x2){return RealVariable(x1.co()+x2.co(), x1.at_free() +x2.at_free(), x1.exp_co()+x2.exp_co());}
+const solver::RealVariable& solver::operator+(const solver::RealVariable& x, double d){
+    RealVariable *tmp = new RealVariable(x.a(),x.b(),x.c()+d);
+    RealVariable &tmpo = *tmp;  
+    return tmpo;}
+const solver::RealVariable& solver::operator+(const solver::RealVariable&  x1, const solver::RealVariable& x2){
+    RealVariable *tmp = new RealVariable(x1.a() + x2.a(), x1.b() + x2.b(), x1.c() + x2.c());
+    RealVariable &tmpo = *tmp;  
+    return tmpo;}
 
-const solver::RealVariable& solver::operator+(double d1, const solver::RealVariable& x2){return RealVariable(x2.co(),x2.at_free()+d1,x2.exp_co());}
+const solver::RealVariable& solver::operator+(double d1, const solver::RealVariable& x2){
+     RealVariable *tmp = new RealVariable(x2.a(),x2.b(),x2.c()+d1);
+    RealVariable &tmpo = *tmp;  
+    return tmpo;}
 const solver::RealVariable& solver::operator/(const solver::RealVariable& x1, double d1){
     if(d1==0){
         throw std::invalid_argument("cannot devide by zero");
     }
     else{
-        return RealVariable(x1.co()/d1,x1.at_free()/d1,x1.exp_co()/d1);
-    }   
-}
-
-
+         RealVariable *tmp = new RealVariable(x1.a()/d1,x1.b()/d1,x1.c()/d1);
+         RealVariable &tmpo = *tmp;  
+         return tmpo;};
+}   
+complex<double> solver::solve(const ComplexVariable &cmplx){
+    return complex<double> (3);}
 
 ComplexVariable C;
 const solver::ComplexVariable& solver::operator*(double r, const ComplexVariable &x){ return C;}

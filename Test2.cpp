@@ -13,6 +13,6 @@ using namespace ariel;
 
 
 TEST_CASE("Test case 2") {
-    /* Add more tests here 
+    Add more tests here 
 }
 */

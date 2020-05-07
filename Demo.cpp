@@ -17,14 +17,16 @@ int main() {
     RealVariable x;
     cout << solve(2*x-4==10) << endl;  // 7
     cout << solve((x^2) == 16) << endl;   // 4 or -4
-   /* try {
+    try {
         cout << solve((x^2) == -16) << endl;
 	} catch (const exception& ex) {
 	 	cout << ex.what() << endl;  // prints "There is no real solution"
 	}
     cout << solve((x^2) + 2*x + 4.0 == 20 + 6.0*x/2 - x) << endl;   // 4 or -4
-    double xvalue = solve(2*x-4.0 == 10.0);   // xvalue == 7
-
+    
+    double xvalue = solve(2*x-4.0 == 10.0);   // x value == 7
+    cout << "x value: " << xvalue << endl;
+    /*
     ComplexVariable y;
     std::complex<double> yvalue = solve(2*y-4 == 10);
     cout << yvalue << endl;  // 7+0i  (can be in any other format)
