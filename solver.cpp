@@ -31,8 +31,45 @@ double solver::solve(const RealVariable &r){
     else{
         throw std::invalid_argument("");
     }
-        return 1.0;
+        
 }
+
+complex<double> solver::solve(const ComplexVariable &cmplx)
+{
+
+    if (cmplx.i() > 0)
+    {
+        double img = -cmplx.i();
+        return std::complex<double>(0, -cmplx.i() / cmplx.b());
+    } 
+    else if ((cmplx.a() != 0 && cmplx.b() != 0)){
+        double bsq = round(cmplx.b() * cmplx.b());
+        double asq = round(cmplx.a());
+        double fsq = round(cmplx.c());
+        double rside = sqrt(bsq - 4 * asq * fsq);
+        double lside = -bsq;
+        double div = 2 * asq;
+        return std::complex<double>((lside + rside) / div,0);
+    }
+    else if (cmplx.b() != 0)
+    {
+        double rside = -cmplx.c();
+        rside /= cmplx.b();
+        return std::complex<double>(rside,0);
+    }
+    else if (cmplx.a() != 0)
+    {
+        double rside = -cmplx.c();
+        std::complex<double> ans =  rside/cmplx.a();
+        return sqrt(ans);
+    }
+    else{
+        throw std::invalid_argument("");
+    }
+
+        return complex<double>(3);
+}
+
 const RealVariable &operator*(const RealVariable &x, double r)
 {
     RealVariable *tmp = new RealVariable(x.a()*r,x.b()*r,x.c()*r);
@@ -91,8 +128,7 @@ const solver::RealVariable& solver::operator/(const solver::RealVariable& x1, do
          RealVariable *tmp = new RealVariable(x1.a()/d1,x1.b()/d1,x1.c()/d1);
          RealVariable &tmpo = *tmp;  
          return tmpo;}}   
-complex<double> solver::solve(const ComplexVariable &cmplx){
-    return complex<double> (3);}
+
 const solver::ComplexVariable& solver::operator*(double r, const ComplexVariable &r1){ 
      ComplexVariable *tmp = new ComplexVariable(r1.a()*r,r1.b()*r,r1.c()*r,r1.i()*r);
      ComplexVariable &tmpo = *tmp;
@@ -147,6 +183,3 @@ const solver::ComplexVariable& solver::operator+(complex<double> r2, const Compl
      ComplexVariable &tmpo = *tmp;
      return tmpo;}
 
-const solver::ComplexVariable& solver::operator"" _i(long double d)
-{
-}
